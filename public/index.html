@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Dino-js</title>
+</head>
+<body>
+    <div id="game">
+        <div id="player" class="idle"></div>
+        <div id="obstacle"></div>
+    </div>
+    <script type="module">
+        import player from './player.js';
+        import keyboardListener from './keyboardListener.js';
+        import detectCollision from './detectCollision.js';
+
+        const playerElement = document.getElementById('player');
+        const playerVar = player(playerElement);
+        const obstacleElement = document.getElementById('obstacle');
+        const keyboardListenerVar = keyboardListener();
+
+        playerVar.setCSS();
+        setInterval(() => {
+            const collision = detectCollision(playerElement, obstacleElement);
+
+            if(collision){
+                alert('Game Over');
+                window.location.reload();
+            }
+        }, 50);
+
+        document.addEventListener('keydown', (event) => {
+            const key = event.key;
+            const keyValid = keyboardListenerVar.verifyKey(key);
+            
+            if (keyValid) {
+                const commandFunction = playerVar.commands[key];
+            
+                commandFunction();
+            }
+        });
+    </script>
+</body>
+</html>
