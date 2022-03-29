@@ -1,0 +1,27 @@
+{
+  "name": "dino",
+  "version": "1.0.0",
+  "description": "A little project to learn more about DOM and javascript games",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevAles/dino-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DevAles/dino-js/issues"
+  },
+  "homepage": "https://github.com/DevAles/dino-js#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
