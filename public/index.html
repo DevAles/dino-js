@@ -35,10 +35,12 @@
         const keyboardListenerVar = keyboardListener();
 
         document.addEventListener('keydown', (event) => {
-            startScreen.style.display = 'none';
+            startScreen.remove();
 
             playerVar.setCSS();
             obstacleVar.setCSS();
+
+            scoreElement.style.display = 'block';
 
             setInterval(() => {
                 if(!detectCollision(playerElement, obstacleElement)) {
@@ -55,8 +57,9 @@
 
             if(collision){
                 playerElement.style.backgroundColor = 'gray';
-                obstacleElement.style.display = 'none';
+                obstacleElement.remove();
 
+                document.removeEventListener('keydown', keyboardListenerVar.keydownHandler);
                 if (playerElement.classList.contains('jumping')){
                     playerElement.classList.remove('jumping')
                 }
@@ -64,7 +67,7 @@
                 window.alert('Game Over');
                 window.location.reload();
             }
-        }, 100);
+        }, 10);
 
         document.addEventListener('keydown', (event) => {
             const key = event.key;
