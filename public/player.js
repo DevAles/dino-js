@@ -19,16 +19,6 @@ export default function player(playerElement){
         }
     }
 
-    function setPlayerAttributes(newPlayerAttributes){
-        playerAttributes.width = newPlayerAttributes.width || playerAttributes.width
-        playerAttributes.height = newPlayerAttributes.height || playerAttributes.height
-        playerAttributes.color = newPlayerAttributes.color || playerAttributes.color
-        playerAttributes.position = newPlayerAttributes.position || playerAttributes.position
-        playerAttributes.left = newPlayerAttributes.left || playerAttributes.left
-        playerAttributes.top = newPlayerAttributes.top || playerAttributes.top
-        playerAttributes.jumpTime = newPlayerAttributes.jumpTime || playerAttributes.jumpTime
-    } //tmp
-
     function setCSS(){
         playerElement.style.width = playerAttributes.width
         playerElement.style.height = playerAttributes.height
@@ -36,7 +26,7 @@ export default function player(playerElement){
         playerElement.style.position = playerAttributes.position
         playerElement.style.left = playerAttributes.left
         playerElement.style.top = playerAttributes.top
-    } //tmp
+    }
 
     function jump(){
         if(!playerElement.classList.contains('jumping')){
@@ -52,7 +42,6 @@ export default function player(playerElement){
 
     return {
         commands,
-        setPlayerAttributes,
         setCSS
     }
 }
