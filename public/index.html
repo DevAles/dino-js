@@ -10,6 +10,7 @@
 <body>
     <div id="game">
         <div id="startScreen">Press Any Key To Start</div>
+        <div id="score">0</div>
         <div id="player" class="idle"></div>
         <div id="obstacle"></div>
     </div>
@@ -18,6 +19,7 @@
         import obstacle from './obstacle.js';
         import keyboardListener from './keyboardListener.js';
         import detectCollision from './detectCollision.js';
+        import score from './score.js';
 
         const startScreen = document.getElementById('startScreen');
 
@@ -26,6 +28,9 @@
 
         const obstacleElement = document.getElementById('obstacle');
         const obstacleVar = obstacle(obstacleElement);
+
+        const scoreElement = document.getElementById('score');
+        const scoreVar = score(scoreElement);
         
         const keyboardListenerVar = keyboardListener();
 
@@ -34,6 +39,15 @@
 
             playerVar.setCSS();
             obstacleVar.setCSS();
+
+            setInterval(() => {
+                if(!detectCollision(playerElement, obstacleElement)) {
+                    obstacleVar.changeObstacleSpeed();
+                    scoreVar.increment();
+                    scoreVar.updateScore();
+                }
+            }, obstacleVar.obstacleSpeed);
+
         }, {once: true});
 
         setInterval(() => {
@@ -42,13 +56,15 @@
             if(collision){
                 playerElement.style.backgroundColor = 'gray';
                 obstacleElement.style.display = 'none';
+
                 if (playerElement.classList.contains('jumping')){
                     playerElement.classList.remove('jumping')
                 }
-                alert('Game Over');
+
+                window.alert('Game Over');
                 window.location.reload();
             }
-        }, 50);
+        }, 100);
 
         document.addEventListener('keydown', (event) => {
             const key = event.key;

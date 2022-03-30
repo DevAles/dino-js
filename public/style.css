@@ -4,12 +4,17 @@
 }
 
 #startScreen {
-    width: 100%;
-    height: 100%;
-    background-color: #FFFFFF;
+    position: absolute;
+    top: 150px;
+    left: 150px;
+    text-align: center;
+}
+
+#score {
+    color: red;
     position: absolute;
     top: 0;
-    left: 0;
+    left: 450px;
     text-align: center;
 }
 
