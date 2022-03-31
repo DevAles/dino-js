@@ -56,10 +56,10 @@
             const collision = detectCollision(playerElement, obstacleElement);
 
             if(collision){
+                playerVar.playerAttributes.isDead = true;
                 playerElement.style.backgroundColor = 'gray';
                 obstacleElement.remove();
-
-                document.removeEventListener('keydown', keyboardListenerVar.keydownHandler);
+                
                 if (playerElement.classList.contains('jumping')){
                     playerElement.classList.remove('jumping')
                 }
@@ -73,7 +73,7 @@
             const key = event.key;
             const keyValid = keyboardListenerVar.verifyKey(key);
             
-            if (keyValid) {
+            if (keyValid && playerVar.playerAttributes.isDead == false){
                 const commandFunction = playerVar.commands[key];
             
                 commandFunction();

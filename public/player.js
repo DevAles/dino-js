@@ -6,7 +6,8 @@ export default function player(playerElement){
         position: 'relative',
         left: '10px',
         top: '250px',
-        jumpTime: 500
+        jumpTime: 500,
+        isDead: false
     }
 
     const commands = {
