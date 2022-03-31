@@ -42,6 +42,7 @@ export default function player(playerElement){
     }
 
     return {
+        playerAttributes,
         commands,
         setCSS
     }
