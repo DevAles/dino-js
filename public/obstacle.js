@@ -1,11 +1,11 @@
 export default function obstacle(obstacleElement){
     const obstacleAttributes = {
         speed: 1000,
-        width: '20px',
-        height: '20px',
-        color: 'blue',
-        position: 'relative',
-        top: '230px',
+        width: '25px',
+        height: '30px',
+        color: 'white',
+        position: 'absolute',
+        top: '270px',
         left: '480px',
         animation: `obstacle-movement 2000ms infinite linear`
     }

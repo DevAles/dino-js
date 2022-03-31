@@ -11,8 +11,8 @@
     <div id="game">
         <div id="startScreen">Press Any Key To Start</div>
         <div id="score">0</div>
-        <div id="player" class="idle"></div>
-        <div id="obstacle"></div>
+        <img src="sprites/dino-idle.png" style="display: none;" id="player" class="idle"></img>
+        <img src="sprites/obstacle.png" style="display: none;" id="obstacle"></img>
     </div>
     <script type="module">
         import player from './player.js';
@@ -40,6 +40,8 @@
             playerVar.setCSS();
             obstacleVar.setCSS();
 
+            playerElement.style.display = 'block';
+            obstacleElement.style.display = 'block';
             scoreElement.style.display = 'block';
 
             setInterval(() => {
@@ -57,7 +59,6 @@
 
             if(collision){
                 playerVar.playerAttributes.isDead = true;
-                playerElement.style.backgroundColor = 'gray';
                 obstacleElement.remove();
                 
                 if (playerElement.classList.contains('jumping')){

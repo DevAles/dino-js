@@ -1,8 +1,8 @@
 export default function player(playerElement){
     const playerAttributes = {
-        width: '20px',
+        width: '40px',
         height: '50px',
-        color: 'red',
+        color: 'white',
         position: 'relative',
         left: '10px',
         top: '250px',
