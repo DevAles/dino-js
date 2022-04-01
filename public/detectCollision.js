@@ -1,8 +1,8 @@
-export default function detectCollision(player, enemy){
-    const enemyPosition = enemy.getBoundingClientRect()
-    const playerPosition = player.getBoundingClientRect()
+export default function detectCollision(firstObject, secondObject){
+    const firstObjectPosition = secondObject.getBoundingClientRect()
+    const secondObjectPosition = firstObject.getBoundingClientRect()
 
-    if(enemyPosition.top < playerPosition.bottom && enemyPosition.bottom > playerPosition.top && enemyPosition.left < playerPosition.right && enemyPosition.right > playerPosition.left){
+    if(secondObjectPosition.top < firstObjectPosition.bottom && secondObjectPosition.bottom > firstObjectPosition.top && secondObjectPosition.left < firstObjectPosition.right && secondObjectPosition.right > firstObjectPosition.left){
         return true
     }
 }

@@ -1,6 +1,6 @@
 export default function keyboardListener(){
     function verifyKey(key){
-        const acepptedKeys = ['ArrowUp', ' ']
+        const acepptedKeys = ['ArrowUp', ' ', 'x']
         
         if(acepptedKeys.includes(key)){
             return true

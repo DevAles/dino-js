@@ -10,9 +10,11 @@
 <body>
     <div id="game">
         <div id="startScreen">Press Any Key To Start</div>
-        <div id="score">0</div>
+        <div id="score" style="display: none;">0</div>
         <img src="sprites/dino-idle.png" style="display: none;" id="player" class="idle"></img>
         <img src="sprites/obstacle.png" style="display: none;" id="obstacle"></img>
+        <img src="sprites/energyBall.jpeg" style="display: none;" id="energyBall">
+        <div id="showRecoveryTime" style="display: none;">0</div>
     </div>
     <script type="module">
         import player from './player.js';
@@ -31,8 +33,13 @@
 
         const scoreElement = document.getElementById('score');
         const scoreVar = score(scoreElement);
+
+        const energyBallElement = document.getElementById('energyBall');
+        const showRecoveryTimeElement = document.getElementById('showRecoveryTime');
         
         const keyboardListenerVar = keyboardListener();
+
+        let recoveryTime = playerVar.playerAttributes.recoveryTime;
 
         document.addEventListener('keydown', (event) => {
             startScreen.remove();
@@ -43,6 +50,7 @@
             playerElement.style.display = 'block';
             obstacleElement.style.display = 'block';
             scoreElement.style.display = 'block';
+            showRecoveryTimeElement.style.display = 'block';
 
             setInterval(() => {
                 if(!detectCollision(playerElement, obstacleElement)) {
@@ -55,11 +63,12 @@
         }, {once: true});
 
         setInterval(() => {
-            const collision = detectCollision(playerElement, obstacleElement);
+            const collisionPlayerAndObstacle = detectCollision(playerElement, obstacleElement);
 
-            if(collision){
+            if(collisionPlayerAndObstacle){
                 playerVar.playerAttributes.isDead = true;
                 obstacleElement.remove();
+                energyBallElement.remove();
                 
                 if (playerElement.classList.contains('jumping')){
                     playerElement.classList.remove('jumping')
@@ -67,6 +76,18 @@
 
                 window.alert('Game Over');
                 window.location.reload();
+            }
+
+            const collisionPlayerAndEnergyBall = detectCollision(energyBallElement, obstacleElement);
+
+            if(collisionPlayerAndEnergyBall){
+                obstacleElement.style.display = 'none'; 
+                scoreVar.increment();
+                scoreVar.updateScore();
+
+                setInterval(() => {
+                    obstacleElement.style.display = 'block';
+                }, 100);
             }
         }, 10);
 
@@ -77,7 +98,21 @@
             if (keyValid && playerVar.playerAttributes.isDead == false){
                 const commandFunction = playerVar.commands[key];
             
-                commandFunction();
+                const returnCommmand = commandFunction(energyBallElement);
+
+                if (returnCommmand == 'attack'){
+                    recoveryTime = playerVar.playerAttributes.recoveryTime;
+                    
+                    const recoveryInterval = setInterval(() => {
+                        if (recoveryTime > 0){
+                            recoveryTime = recoveryTime - 100;
+                            showRecoveryTimeElement.innerHTML = recoveryTime;
+                        } else {
+                            showRecoveryTimeElement.innerHTML = 0;
+                            clearInterval(recoveryInterval);
+                        }
+                    }, 100);                  
+                }
             }
         });
     </script>
