@@ -1,4 +1,4 @@
-export default function obstacle(obstacleElement){
+export default function obstacle(){
     const obstacleAttributes = {
         speed: 1000,
         width: '25px',
@@ -10,7 +10,7 @@ export default function obstacle(obstacleElement){
         animation: `obstacle-movement 2000ms infinite linear`
     }
 
-    function setCSS(){
+    function setCSS(obstacleElement){
         obstacleElement.style.width = obstacleAttributes.width
         obstacleElement.style.height = obstacleAttributes.height
         obstacleElement.style.backgroundColor = obstacleAttributes.color
@@ -20,7 +20,7 @@ export default function obstacle(obstacleElement){
         obstacleElement.style.animation = obstacleAttributes.animation
     }
 
-    function changeObstacleSpeed(){
+    function changeObstacleSpeed(obstacleElement){
         obstacleAttributes.speed = obstacleAttributes.speed - 0.01
         obstacleAttributes.animation = `obstacle-movement ${obstacleAttributes.speed}ms infinite linear`
         obstacleElement.style.animation = obstacleAttributes.animation

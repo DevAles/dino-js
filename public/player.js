@@ -1,4 +1,4 @@
-export default function player(playerElement){
+export default function player(){
     const playerAttributes = {
         width: '40px',
         height: '50px',
@@ -14,22 +14,22 @@ export default function player(playerElement){
     }
 
     const commands = {
-        'ArrowUp': () => {
+        'ArrowUp': (playerElement) => {
             console.log('ArrowUp')
-            jump()
+            jump(playerElement)
         },
-        ' ': () => {
-            jump()
+        ' ': (playerElement) => {
+            jump(playerElement)
         },
-        'x': (energyBallElement) => {
+        'x': (playerElement, energyBallElement) => {
             if(energyBallElement.style.display === 'none' && !playerAttributes.isDead && playerAttributes.energy === true){
-                attack(energyBallElement)
+                attack(playerElement, energyBallElement)
                 return 'attack'
             }
         }
     }
 
-    function setCSS(){
+    function setCSS(playerElement){
         playerElement.style.width = playerAttributes.width
         playerElement.style.height = playerAttributes.height
         playerElement.style.backgroundColor = playerAttributes.color
@@ -38,7 +38,7 @@ export default function player(playerElement){
         playerElement.style.top = playerAttributes.top
     }
 
-    function jump(){
+    function jump(playerElement){
         if(!playerElement.classList.contains('jumping')){
             playerElement.classList.add('jumping')
         } else {
@@ -50,7 +50,7 @@ export default function player(playerElement){
         }, playerAttributes.jumpTime)
     }
 
-    function attack(energyBallElement){
+    function attack(playerElement, energyBallElement){
         setTimeout(() => {
             if(!playerElement.classList.contains('attacking')){
                 playerElement.classList.add('attacking')
@@ -71,9 +71,20 @@ export default function player(playerElement){
         }, 100)
     }
     
+    function verifyRecoveryTime(){
+        if (recoveryTime > 0){
+            recoveryTime = recoveryTime - 100;
+            showRecoveryTimeElement.innerHTML = recoveryTime;
+        } else {
+            showRecoveryTimeElement.innerHTML = 0;
+            clearInterval(recoveryInterval);
+        }
+    }
+
     return {
         playerAttributes,
         commands,
-        setCSS
+        setCSS,
+        verifyRecoveryTime
     }
 }

@@ -17,103 +17,32 @@
         <div id="showRecoveryTime" style="display: none;">0</div>
     </div>
     <script type="module">
-        import player from './player.js';
-        import obstacle from './obstacle.js';
-        import keyboardListener from './keyboardListener.js';
-        import detectCollision from './detectCollision.js';
-        import score from './score.js';
+        import game from './game.js';
+
+        const gameVar = game();
 
         const startScreen = document.getElementById('startScreen');
-
         const playerElement = document.getElementById('player');
-        const playerVar = player(playerElement);
-
         const obstacleElement = document.getElementById('obstacle');
-        const obstacleVar = obstacle(obstacleElement);
-
         const scoreElement = document.getElementById('score');
-        const scoreVar = score(scoreElement);
-
         const energyBallElement = document.getElementById('energyBall');
         const showRecoveryTimeElement = document.getElementById('showRecoveryTime');
         
-        const keyboardListenerVar = keyboardListener();
-
-        let recoveryTime = playerVar.playerAttributes.recoveryTime;
 
         document.addEventListener('keydown', (event) => {
-            startScreen.remove();
-
-            playerVar.setCSS();
-            obstacleVar.setCSS();
-
-            playerElement.style.display = 'block';
-            obstacleElement.style.display = 'block';
-            scoreElement.style.display = 'block';
-            showRecoveryTimeElement.style.display = 'block';
-
-            setInterval(() => {
-                if(!detectCollision(playerElement, obstacleElement)) {
-                    obstacleVar.changeObstacleSpeed();
-                    scoreVar.increment();
-                    scoreVar.updateScore();
-                }
-            }, obstacleVar.obstacleSpeed);
-
+            gameVar.start(startScreen, playerElement, obstacleElement, scoreElement,
+            showRecoveryTimeElement);
         }, {once: true});
 
         setInterval(() => {
-            const collisionPlayerAndObstacle = detectCollision(playerElement, obstacleElement);
-
-            if(collisionPlayerAndObstacle){
-                playerVar.playerAttributes.isDead = true;
-                obstacleElement.remove();
-                energyBallElement.remove();
-                
-                if (playerElement.classList.contains('jumping')){
-                    playerElement.classList.remove('jumping')
-                }
-
-                window.alert('Game Over');
-                window.location.reload();
-            }
-
-            const collisionPlayerAndEnergyBall = detectCollision(energyBallElement, obstacleElement);
-
-            if(collisionPlayerAndEnergyBall){
-                obstacleElement.style.display = 'none'; 
-                scoreVar.increment();
-                scoreVar.updateScore();
-
-                setInterval(() => {
-                    obstacleElement.style.display = 'block';
-                }, 100);
-            }
+            gameVar.verifyGameOver(playerElement, obstacleElement, energyBallElement);
+            gameVar.verifyObstacleDestroyed(energyBallElement, obstacleElement, scoreElement);
         }, 10);
 
         document.addEventListener('keydown', (event) => {
             const key = event.key;
-            const keyValid = keyboardListenerVar.verifyKey(key);
             
-            if (keyValid && playerVar.playerAttributes.isDead == false){
-                const commandFunction = playerVar.commands[key];
-            
-                const returnCommmand = commandFunction(energyBallElement);
-
-                if (returnCommmand == 'attack'){
-                    recoveryTime = playerVar.playerAttributes.recoveryTime;
-                    
-                    const recoveryInterval = setInterval(() => {
-                        if (recoveryTime > 0){
-                            recoveryTime = recoveryTime - 100;
-                            showRecoveryTimeElement.innerHTML = recoveryTime;
-                        } else {
-                            showRecoveryTimeElement.innerHTML = 0;
-                            clearInterval(recoveryInterval);
-                        }
-                    }, 100);                  
-                }
-            }
+            gameVar.verifyKey(key, energyBallElement, showRecoveryTimeElement, playerElement)
         });
     </script>
 </body>
